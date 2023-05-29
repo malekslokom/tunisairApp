@@ -1,5 +1,4 @@
 package com.tunisair.models;
-import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
 
@@ -27,8 +26,6 @@ public class Aeroport {
 
     @OneToMany(mappedBy = "aeroport")
     private Set<Escale> escales = new HashSet<>();
-
-    // Getters and setters for escales
 
     public void addEscale(Escale escale) {
         escales.add(escale);

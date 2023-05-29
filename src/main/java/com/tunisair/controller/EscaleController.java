@@ -2,38 +2,42 @@ package com.tunisair.controller;
 
 import com.tunisair.models.Escale;
 import com.tunisair.service.EscaleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/escale")
+@RequestMapping("/api/escales")
 public class EscaleController {
+
     private final EscaleService escaleService;
 
-    @Autowired
     public EscaleController(EscaleService escaleService) {
         this.escaleService = escaleService;
     }
 
-    @GetMapping
-    public List<Escale> getAllEscales() {
-        return escaleService.getAllEscales();
-    }
-
     @GetMapping("/{id}")
-    public Escale getEscaleById(@PathVariable("id") Long id) {
-        return escaleService.getEscaleById(id);
+    public ResponseEntity<Escale> getEscaleById(@PathVariable("id") Long id) throws NotFoundException {
+        Escale escale = escaleService.getEscaleById(id);
+        return ResponseEntity.ok(escale);
     }
 
     @PostMapping
-    public Escale saveEscale(@RequestBody Escale escale) {
-        return escaleService.saveEscale(escale);
+    public ResponseEntity<Escale> createEscale(@RequestBody Escale escale) {
+        Escale createdEscale = escaleService.createEscale(escale);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEscale);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Escale> updateEscale(@PathVariable("id") Long id, @RequestBody Escale escale) throws NotFoundException {
+        Escale updatedEscale = escaleService.updateEscale(id, escale);
+        return ResponseEntity.ok(updatedEscale);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEscaleById(@PathVariable("id") Long id) {
-        escaleService.deleteEscaleById(id);
+    public ResponseEntity<Void> deleteEscale(@PathVariable("id") Long id) throws NotFoundException {
+        escaleService.deleteEscale(id);
+        return ResponseEntity.noContent().build();
     }
 }

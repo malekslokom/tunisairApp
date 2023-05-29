@@ -2,38 +2,43 @@ package com.tunisair.controller;
 
 import com.tunisair.models.Pilote;
 import com.tunisair.service.PiloteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/pilotes")
+@RequestMapping("/api/pilotes")
 public class PiloteController {
+
     private final PiloteService piloteService;
 
-    @Autowired
     public PiloteController(PiloteService piloteService) {
         this.piloteService = piloteService;
     }
 
-    @GetMapping
-    public List<Pilote> getAllPilotes() {
-        return piloteService.getAllPilotes();
-    }
-
     @GetMapping("/{id}")
-    public Pilote getPiloteById(@PathVariable("id") Long id) {
-        return piloteService.getPiloteById(id);
+    public ResponseEntity<Pilote> getPilote(@PathVariable("id") Long id) throws NotFoundException {
+        Pilote pilote = piloteService.getPilote(id);
+        return ResponseEntity.ok(pilote);
     }
 
     @PostMapping
-    public Pilote savePilote(@RequestBody Pilote pilote) {
-        return piloteService.savePilote(pilote);
+    public ResponseEntity<Pilote> createPilote(@RequestBody Pilote pilote) {
+        Pilote createdPilote = piloteService.createPilote(pilote);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPilote);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pilote> updatePilote(@PathVariable("id") Long id,
+                                               @RequestBody Pilote pilote) throws NotFoundException {
+        Pilote updatedPilote = piloteService.updatePilote(id, pilote);
+        return ResponseEntity.ok(updatedPilote);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePiloteById(@PathVariable("id") Long id) {
-        piloteService.deletePiloteById(id);
+    public ResponseEntity<Void> deletePilote(@PathVariable("id") Long id) throws NotFoundException {
+        piloteService.deletePilote(id);
+        return ResponseEntity.noContent().build();
     }
 }

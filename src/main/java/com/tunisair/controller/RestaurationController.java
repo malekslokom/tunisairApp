@@ -2,43 +2,43 @@ package com.tunisair.controller;
 
 import com.tunisair.models.Restauration;
 import com.tunisair.service.RestaurationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/restaurations")
+@RequestMapping("/api/restaurations")
 public class RestaurationController {
+
     private final RestaurationService restaurationService;
 
-    @Autowired
     public RestaurationController(RestaurationService restaurationService) {
         this.restaurationService = restaurationService;
     }
 
-    @GetMapping
-    public List<Restauration> getAllRestaurations() {
-        return restaurationService.getAllRestaurations();
-    }
-
     @GetMapping("/{id}")
-    public Restauration getRestaurationById(@PathVariable("id") Long id) {
-        return restaurationService.getRestaurationById(id);
+    public ResponseEntity<Restauration> getRestauration(@PathVariable("id") Long id) throws NotFoundException {
+        Restauration restauration = restaurationService.getRestauration(id);
+        return ResponseEntity.ok(restauration);
     }
 
     @PostMapping
-    public Restauration createRestauration(@RequestBody Restauration restauration) {
-        return restaurationService.saveRestauration(restauration);
+    public ResponseEntity<Restauration> createRestauration(@RequestBody Restauration restauration) {
+        Restauration createdRestauration = restaurationService.createRestauration(restauration);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRestauration);
     }
 
     @PutMapping("/{id}")
-    public Restauration updateRestauration(@PathVariable("id") Long id, @RequestBody Restauration restauration) {
-        return restaurationService.updateRestauration(id, restauration);
+    public ResponseEntity<Restauration> updateRestauration(@PathVariable("id") Long id,
+                                                           @RequestBody Restauration restauration) throws NotFoundException {
+        Restauration updatedRestauration = restaurationService.updateRestauration(id, restauration);
+        return ResponseEntity.ok(updatedRestauration);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRestauration(@PathVariable("id") Long id) {
-        restaurationService.deleteRestaurationById(id);
+    public ResponseEntity<Void> deleteRestauration(@PathVariable("id") Long id) throws NotFoundException {
+        restaurationService.deleteRestauration(id);
+        return ResponseEntity.noContent().build();
     }
 }

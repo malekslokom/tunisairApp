@@ -2,34 +2,40 @@ package com.tunisair.service;
 
 import com.tunisair.models.Pilote;
 import com.tunisair.repositories.PiloteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PiloteService {
+
     private final PiloteRepository piloteRepository;
 
-    @Autowired
     public PiloteService(PiloteRepository piloteRepository) {
         this.piloteRepository = piloteRepository;
     }
 
-    // Implement service methods for Pilote class
-    public List<Pilote> getAllPilotes() {
-        return piloteRepository.findAll();
+    public Pilote getPilote(Long id) throws NotFoundException {
+        return piloteRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Pilote not found with id: " + id));
     }
 
-    public Pilote getPiloteById(Long id) {
-        return piloteRepository.findById(id).orElse(null);
-    }
-
-    public Pilote savePilote(Pilote pilote) {
+    public Pilote createPilote(Pilote pilote) {
         return piloteRepository.save(pilote);
     }
 
-    public void deletePiloteById(Long id) {
-        piloteRepository.deleteById(id);
+    public Pilote updatePilote(Long id, Pilote pilote) throws NotFoundException {
+        Pilote existingPilote = getPilote(id);
+
+        // Update attributes of existingPilote with the new values from pilote
+        existingPilote.setNbHeuresVol(pilote.getNbHeuresVol());
+        existingPilote.setNumeroLicence(pilote.getNumeroLicence());
+        existingPilote.setEquipage(pilote.getEquipage());
+
+        return piloteRepository.save(existingPilote);
+    }
+
+    public void deletePilote(Long id) throws NotFoundException {
+        Pilote existingPilote = getPilote(id);
+        piloteRepository.delete(existingPilote);
     }
 }

@@ -2,34 +2,42 @@ package com.tunisair.service;
 
 import com.tunisair.models.Escale;
 import com.tunisair.repositories.EscaleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EscaleService {
+
     private final EscaleRepository escaleRepository;
 
-    @Autowired
     public EscaleService(EscaleRepository escaleRepository) {
         this.escaleRepository = escaleRepository;
     }
 
-    // Implement service methods for Escale class
-    public List<Escale> getAllEscales() {
-        return escaleRepository.findAll();
+    public Escale getEscaleById(Long id) throws NotFoundException {
+        return escaleRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Escale not found with id: " + id));
     }
 
-    public Escale getEscaleById(Long id) {
-        return escaleRepository.findById(id).orElse(null);
-    }
-
-    public Escale saveEscale(Escale escale) {
+    public Escale createEscale(Escale escale) {
         return escaleRepository.save(escale);
     }
 
-    public void deleteEscaleById(Long id) {
+    public Escale updateEscale(Long id, Escale escale) throws NotFoundException {
+        Escale existingEscale = escaleRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Escale not found with id: " + id));
+
+        // Update attributes of existingEscale with the new values from escale
+        existingEscale.setVol(escale.getVol());
+        existingEscale.setAeroport(escale.getAeroport());
+
+        return escaleRepository.save(existingEscale);
+    }
+
+    public void deleteEscale(Long id) throws NotFoundException {
+        if (!escaleRepository.existsById(id)) {
+            throw new NotFoundException("Escale not found with id: " + id);
+        }
         escaleRepository.deleteById(id);
     }
 }

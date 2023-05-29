@@ -1,50 +1,44 @@
 package com.tunisair.controller;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.tunisair.models.Avion;
 import com.tunisair.service.AvionService;
 
-import java.util.List;
+import javassist.NotFoundException;
 
 @RestController
-@RequestMapping("/avions")
+@RequestMapping("/api/avions")
 public class AvionController {
-    private AvionService avionService;
 
-    @Autowired
+    private final AvionService avionService;
+
     public AvionController(AvionService avionService) {
         this.avionService = avionService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Avion> getAvionById(@PathVariable("id") Long id) throws NotFoundException {
+        Avion avion = avionService.getAvionById(id);
+        return ResponseEntity.ok(avion);
+    }
+
     @PostMapping
     public ResponseEntity<Avion> createAvion(@RequestBody Avion avion) {
-        Avion createdAvion = avionService.saveAvion(avion);
-        return new ResponseEntity<>(createdAvion, HttpStatus.CREATED);
+        Avion createdAvion = avionService.createAvion(avion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAvion);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Avion> getAvionById(@PathVariable Long id) {
-        Avion avion = avionService.getAvionById(id);
-        if (avion != null) {
-            return new ResponseEntity<>(avion, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Avion>> getAllAvions() {
-        List<Avion> avions = avionService.getAllAvions();
-        return new ResponseEntity<>(avions, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Avion> updateAvion(@PathVariable("id") Long id, @RequestBody Avion avion) throws NotFoundException {
+        Avion updatedAvion = avionService.updateAvion(id, avion);
+        return ResponseEntity.ok(updatedAvion);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAvionById(@PathVariable Long id) {
-        avionService.deleteAvionById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteAvion(@PathVariable("id") Long id) throws NotFoundException {
+        avionService.deleteAvion(id);
+        return ResponseEntity.noContent().build();
     }
 }
-

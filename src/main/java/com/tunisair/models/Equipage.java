@@ -1,5 +1,4 @@
 package com.tunisair.models;
-import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
 

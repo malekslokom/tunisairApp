@@ -2,43 +2,43 @@ package com.tunisair.controller;
 
 import com.tunisair.models.MenuItem;
 import com.tunisair.service.MenuItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/menuitems")
+@RequestMapping("/api/menu-items")
 public class MenuItemController {
+
     private final MenuItemService menuItemService;
 
-    @Autowired
     public MenuItemController(MenuItemService menuItemService) {
         this.menuItemService = menuItemService;
     }
 
-    @GetMapping
-    public List<MenuItem> getAllMenuItems() {
-        return menuItemService.getAllMenuItems();
-    }
-
     @GetMapping("/{id}")
-    public MenuItem getMenuItemById(@PathVariable("id") Long id) {
-        return menuItemService.getMenuItemById(id);
+    public ResponseEntity<MenuItem> getMenuItem(@PathVariable("id") Long id) throws NotFoundException {
+        MenuItem menuItem = menuItemService.getMenuItem(id);
+        return ResponseEntity.ok(menuItem);
     }
 
     @PostMapping
-    public MenuItem createMenuItem(@RequestBody MenuItem menuItem) {
-        return menuItemService.saveMenuItem(menuItem);
+    public ResponseEntity<MenuItem> createMenuItem(@RequestBody MenuItem menuItem) {
+        MenuItem createdMenuItem = menuItemService.createMenuItem(menuItem);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMenuItem);
     }
 
     @PutMapping("/{id}")
-    public MenuItem updateMenuItem(@PathVariable("id") Long id, @RequestBody MenuItem menuItem) {
-        return menuItemService.updateMenuItem(id, menuItem);
+    public ResponseEntity<MenuItem> updateMenuItem(@PathVariable("id") Long id,
+                                                   @RequestBody MenuItem menuItem) throws NotFoundException {
+        MenuItem updatedMenuItem = menuItemService.updateMenuItem(id, menuItem);
+        return ResponseEntity.ok(updatedMenuItem);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMenuItem(@PathVariable("id") Long id) {
-        menuItemService.deleteMenuItemById(id);
+    public ResponseEntity<Void> deleteMenuItem(@PathVariable("id") Long id) throws NotFoundException {
+        menuItemService.deleteMenuItem(id);
+        return ResponseEntity.noContent().build();
     }
 }

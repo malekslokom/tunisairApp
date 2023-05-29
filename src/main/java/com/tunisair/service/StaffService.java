@@ -2,34 +2,40 @@ package com.tunisair.service;
 
 import com.tunisair.models.Staff;
 import com.tunisair.repositories.StaffRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class StaffService {
+
     private final StaffRepository staffRepository;
 
-    @Autowired
     public StaffService(StaffRepository staffRepository) {
         this.staffRepository = staffRepository;
     }
 
-    // Implement service methods for Staff class
-    public List<Staff> getAllStaff() {
-        return staffRepository.findAll();
+    public Staff getStaff(Long id) throws NotFoundException {
+        return staffRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Staff not found with id: " + id));
     }
 
-    public Staff getStaffById(Long id) {
-        return staffRepository.findById(id).orElse(null);
-    }
-
-    public Staff saveStaff(Staff staff) {
+    public Staff createStaff(Staff staff) {
         return staffRepository.save(staff);
     }
 
-    public void deleteStaffById(Long id) {
-        staffRepository.deleteById(id);
+    public Staff updateStaff(Long id, Staff staff) throws NotFoundException {
+        Staff existingStaff = getStaff(id);
+
+        // Update attributes of existingStaff with the new values from staff
+        existingStaff.setRole(staff.getRole());
+        existingStaff.setExperience(staff.getExperience());
+        existingStaff.setEquipage(staff.getEquipage());
+
+        return staffRepository.save(existingStaff);
+    }
+
+    public void deleteStaff(Long id) throws NotFoundException {
+        Staff existingStaff = getStaff(id);
+        staffRepository.delete(existingStaff);
     }
 }

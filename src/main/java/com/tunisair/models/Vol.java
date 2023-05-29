@@ -3,7 +3,6 @@ package com.tunisair.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -39,8 +38,6 @@ public class Vol implements Serializable {
     
     @OneToMany(mappedBy = "vol")
     private Set<Escale> escales = new HashSet<>();
-
-    // Getters and setters for escales
 
     public void addEscale(Escale escale) {
         escales.add(escale);

@@ -2,38 +2,42 @@ package com.tunisair.controller;
 
 import com.tunisair.models.Equipage;
 import com.tunisair.service.EquipageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/equipage")
+@RequestMapping("/api/equipages")
 public class EquipageController {
+
     private final EquipageService equipageService;
 
-    @Autowired
     public EquipageController(EquipageService equipageService) {
         this.equipageService = equipageService;
     }
 
-    @GetMapping
-    public List<Equipage> getAllEquipages() {
-        return equipageService.getAllEquipages();
-    }
-
     @GetMapping("/{id}")
-    public Equipage getEquipageById(@PathVariable("id") Long id) {
-        return equipageService.getEquipageById(id);
+    public ResponseEntity<Equipage> getEquipageById(@PathVariable("id") Long id) throws NotFoundException {
+        Equipage equipage = equipageService.getEquipageById(id);
+        return ResponseEntity.ok(equipage);
     }
 
     @PostMapping
-    public Equipage saveEquipage(@RequestBody Equipage equipage) {
-        return equipageService.saveEquipage(equipage);
+    public ResponseEntity<Equipage> createEquipage(@RequestBody Equipage equipage) {
+        Equipage createdEquipage = equipageService.createEquipage(equipage);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipage);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Equipage> updateEquipage(@PathVariable("id") Long id, @RequestBody Equipage equipage) throws NotFoundException {
+        Equipage updatedEquipage = equipageService.updateEquipage(id, equipage);
+        return ResponseEntity.ok(updatedEquipage);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEquipageById(@PathVariable("id") Long id) {
-        equipageService.deleteEquipageById(id);
+    public ResponseEntity<Void> deleteEquipage(@PathVariable("id") Long id) throws NotFoundException {
+        equipageService.deleteEquipage(id);
+        return ResponseEntity.noContent().build();
     }
 }

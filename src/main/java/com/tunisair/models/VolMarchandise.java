@@ -1,6 +1,5 @@
 package com.tunisair.models;
 
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 
 @Entity

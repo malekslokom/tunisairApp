@@ -1,7 +1,6 @@
 package com.tunisair.models;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -22,9 +21,6 @@ public class Escale implements Serializable {
     @ManyToOne
     @JoinColumn(name = "aeroport_id")
     private Aeroport aeroport;
-
-
-    // Constructors, getters, and setters
 
 
     public Long getId() {

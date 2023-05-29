@@ -2,48 +2,44 @@ package com.tunisair.service;
 
 import com.tunisair.models.Restauration;
 import com.tunisair.repositories.RestaurationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class RestaurationService {
+
     private final RestaurationRepository restaurationRepository;
 
-    @Autowired
     public RestaurationService(RestaurationRepository restaurationRepository) {
         this.restaurationRepository = restaurationRepository;
     }
 
-    public List<Restauration> getAllRestaurations() {
-        return restaurationRepository.findAll();
+    public Restauration getRestauration(Long id) throws NotFoundException {
+        return restaurationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Restauration not found with id: " + id));
     }
 
-    public Restauration getRestaurationById(Long id) {
-        return restaurationRepository.findById(id).orElse(null);
-    }
-
-    public Restauration saveRestauration(Restauration restauration) {
+    public Restauration createRestauration(Restauration restauration) {
         return restaurationRepository.save(restauration);
     }
 
-    public Restauration updateRestauration(Long id, Restauration restauration) {
-        Restauration existingRestauration = restaurationRepository.findById(id).orElse(null);
-        if (existingRestauration != null) {
-            existingRestauration.setNom(restauration.getNom());
-            existingRestauration.setEmail(restauration.getEmail());
-            existingRestauration.setTelephone(restauration.getTelephone());
-            existingRestauration.setAdresse(restauration.getAdresse());
-            existingRestauration.setTypecuisine(restauration.getTypecuisine());
-            existingRestauration.setVols(restauration.getVols());
-            // Save the updated restauration
-            return restaurationRepository.save(existingRestauration);
-        }
-        return null;
+    public Restauration updateRestauration(Long id, Restauration restauration) throws NotFoundException {
+        Restauration existingRestauration = getRestauration(id);
+
+        // Update attributes of existingRestauration with the new values from restauration
+        existingRestauration.setNom(restauration.getNom());
+        existingRestauration.setEmail(restauration.getEmail());
+        existingRestauration.setTelephone(restauration.getTelephone());
+        existingRestauration.setAdresse(restauration.getAdresse());
+        existingRestauration.setTypecuisine(restauration.getTypecuisine());
+        existingRestauration.setVols(restauration.getVols());
+
+        return restaurationRepository.save(existingRestauration);
     }
 
-    public void deleteRestaurationById(Long id) {
-        restaurationRepository.deleteById(id);
+    public void deleteRestauration(Long id) throws NotFoundException {
+        Restauration existingRestauration = getRestauration(id);
+        restaurationRepository.delete(existingRestauration);
     }
 }

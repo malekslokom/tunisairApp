@@ -1,22 +1,8 @@
 package com.tunisair.controller;
 
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,66 +13,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tunisair.models.*;
-import com.tunisair.payload.request.LoginRequest;
-import com.tunisair.payload.request.SignupRequest;
-import com.tunisair.payload.response.JwtResponse;
-import com.tunisair.payload.response.MessageResponse;
-import com.tunisair.repositories.*;
-import com.tunisair.security.jwt.JwtUtils;
 import com.tunisair.service.AeroportService;
-import com.tunisair.service.UserDetailsImpl;
+
+import javassist.NotFoundException;
 
 
 @RestController
-@RequestMapping("/aeroports")
+@RequestMapping("/api/aeroports")
 public class AeroportController {
 
-    @Autowired
-    private AeroportService aeroportService;
+    private final AeroportService aeroportService;
 
-    // Endpoint to get all aeroports
-    @GetMapping
-    public List<Aeroport> getAllAeroports() {
-        return aeroportService.getAllAeroports();
+    public AeroportController(AeroportService aeroportService) {
+        this.aeroportService = aeroportService;
     }
 
-    // Endpoint to get an aeroport by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<Aeroport> getAeroportById(@PathVariable Long id) {
-        Optional<Aeroport> aeroport = aeroportService.getAeroportById(id);
-        if (aeroport.isPresent()) {
-            return ResponseEntity.ok(aeroport.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Aeroport> getAeroportById(@PathVariable("id") Long id) throws NotFoundException {
+        Aeroport aeroport = aeroportService.getAeroportById(id);
+        return ResponseEntity.ok(aeroport);
     }
 
-    // Endpoint to create a new aeroport
     @PostMapping
-    public Aeroport createAeroport(@RequestBody Aeroport aeroport) {
-        return aeroportService.createAeroport(aeroport);
+    public ResponseEntity<Aeroport> createAeroport(@RequestBody Aeroport aeroport) {
+        Aeroport createdAeroport = aeroportService.createAeroport(aeroport);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAeroport);
     }
 
-    // Endpoint to update an aeroport
     @PutMapping("/{id}")
-    public ResponseEntity<Aeroport> updateAeroport(@PathVariable Long id, @RequestBody Aeroport updatedAeroport) {
-        Optional<Aeroport> aeroport = aeroportService.updateAeroport(id, updatedAeroport);
-        if (aeroport.isPresent()) {
-            return ResponseEntity.ok(aeroport.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Aeroport> updateAeroport(@PathVariable("id") Long id, @RequestBody Aeroport aeroport) throws NotFoundException {
+        Aeroport updatedAeroport = aeroportService.updateAeroport(id, aeroport);
+        return ResponseEntity.ok(updatedAeroport);
     }
 
-    // Endpoint to delete an aeroport
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAeroport(@PathVariable Long id) {
-        boolean deleted = aeroportService.deleteAeroport(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteAeroport(@PathVariable("id") Long id) throws NotFoundException {
+        aeroportService.deleteAeroport(id);
+        return ResponseEntity.noContent().build();
     }
 }
-

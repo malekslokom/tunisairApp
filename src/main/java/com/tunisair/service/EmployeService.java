@@ -2,34 +2,46 @@ package com.tunisair.service;
 
 import com.tunisair.models.Employe;
 import com.tunisair.repositories.EmployeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EmployeService {
+
     private final EmployeRepository employeRepository;
 
-    @Autowired
     public EmployeService(EmployeRepository employeRepository) {
         this.employeRepository = employeRepository;
     }
 
-    // Implement service methods for Employe class
-    public List<Employe> getAllEmployes() {
-        return employeRepository.findAll();
+    public Employe getEmployeById(Long id) throws NotFoundException {
+        return employeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employe not found with id: " + id));
     }
 
-    public Employe getEmployeById(Long id) {
-        return employeRepository.findById(id).orElse(null);
-    }
-
-    public Employe saveEmploye(Employe employe) {
+    public Employe createEmploye(Employe employe) {
         return employeRepository.save(employe);
     }
 
-    public void deleteEmployeById(Long id) {
+    public Employe updateEmploye(Long id, Employe employe) throws NotFoundException {
+        Employe existingEmploye = employeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employe not found with id: " + id));
+
+        // Update attributes of existingEmploye with the new values from employe
+        existingEmploye.setNom(employe.getNom());
+        existingEmploye.setPrenom(employe.getPrenom());
+        existingEmploye.setDateNaissance(employe.getDateNaissance());
+        existingEmploye.setEmail(employe.getEmail());
+        existingEmploye.setTelephone(employe.getTelephone());
+        existingEmploye.setAdresse(employe.getAdresse());
+
+        return employeRepository.save(existingEmploye);
+    }
+
+    public void deleteEmploye(Long id) throws NotFoundException {
+        if (!employeRepository.existsById(id)) {
+            throw new NotFoundException("Employe not found with id: " + id);
+        }
         employeRepository.deleteById(id);
     }
 }

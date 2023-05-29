@@ -1,9 +1,7 @@
 package com.tunisair.models;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 @Entity
 @Table(name = "menu")
@@ -16,8 +14,6 @@ public class Menu implements Serializable{
     @Id
     @Column(name = "idRestauration")
     private Long idRestauration;
-
-    // Other attributes and relationships
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "menu_menu_item",

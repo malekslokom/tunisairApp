@@ -2,9 +2,7 @@ package com.tunisair.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "menu_item")
@@ -16,12 +14,9 @@ public class MenuItem implements Serializable{
 
     private String name;
 
-    // Other attributes and relationships
 
     @ManyToMany(mappedBy = "menuItems")
     private List<Menu> menus;
-
-    // Constructors, getters, and setters
 
 
 
