@@ -58,21 +58,18 @@ public class VolMarchandiseService {
             Optional<Aeroport> aeroportDepartOptional = aeroportRepository
                     .findById(volMarchandise.getAeroportDepart().getIdAeroport());
             if (!aeroportDepartOptional.isPresent()) {
-                System.out.println("!!!!!!! Aeroport Departure not found with id: "
-                        + volMarchandise.getAeroportDepart().getIdAeroport());
+
             }
             volMarchandise.setAeroportDepart(aeroportDepartOptional.get());
         }
 
 
-        // Check if Aeroport Destination exists
         if (volMarchandise.getAeroportDestination() != null
                 && volMarchandise.getAeroportDestination().getIdAeroport() != null) {
             Optional<Aeroport> aeroportDestinationOptional = aeroportRepository
                     .findById(volMarchandise.getAeroportDestination().getIdAeroport());
             if (!aeroportDestinationOptional.isPresent()) {
-                System.out.println("!!!!!!! Aeroport Destination not found with id: "
-                        + volMarchandise.getAeroportDestination().getIdAeroport());
+
             }
             volMarchandise.setAeroportDestination(aeroportDestinationOptional.get());
         }
@@ -83,8 +80,7 @@ public class VolMarchandiseService {
             Optional<Equipage> equipageOptional = equipageRepository
                     .findById(volMarchandise.getEquipage().getIdEquipage());
             if (!equipageOptional.isPresent()) {
-                System.out.println(
-                        "!!!!!!! Equipage not found with id: " + volMarchandise.getEquipage().getIdEquipage());
+
             }
             volMarchandise.setEquipage(equipageOptional.get());
         }
@@ -97,8 +93,7 @@ public class VolMarchandiseService {
                 Optional<Restauration> restaurationOptional = restaurationRepository
                         .findById(restauration.getIdRestauration());
                 if (!restaurationOptional.isPresent()) {
-                    System.out.println(
-                            "!!!!!!! Restauration not found with id: " + restauration.getIdRestauration());
+
                 } else {
                     verifiedRestaurations.add(restaurationOptional.get());
                 }
@@ -107,7 +102,6 @@ public class VolMarchandiseService {
         volMarchandise.setRestaurations(verifiedRestaurations);
 
 
-        // Save the VolMarchandise object
         return volMarchandiseRepository.save(volMarchandise);
     }
 
@@ -117,7 +111,6 @@ public class VolMarchandiseService {
                 .orElseThrow(() -> new NotFoundException("Vol Marchandise not found with id: " + id));
 
 
-        // Update attributes of existingVolMarchandise with the new values from volMarchandise
         existingVolMarchandise.setDateDepart(volMarchandise.getDateDepart());
         existingVolMarchandise.setDateArrivee(volMarchandise.getDateArrivee());
         existingVolMarchandise.setRetard(volMarchandise.getRetard());

@@ -5,7 +5,6 @@ import java.util.*;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Restauration", uniqueConstraints = {
@@ -26,19 +25,6 @@ public class Restauration implements Serializable {
     private String adresse;
 
     private String typecuisine;
-
-    // @ManyToMany(mappedBy = "restaurations")
-    // @ManyToMany
-    // @JoinTable(
-    // name = "Menu",
-    // joinColumns = @JoinColumn(name = "idRestauration"),
-    // inverseJoinColumns = @JoinColumn(name = "numeroVol")
-    // )
-    // @JsonIgnoreProperties("restaurations")
-    // private Set<Vol> vols = new HashSet<>();
-    // @ManyToOne
-    // @JoinColumn(name = "menu_id_menu")
-    // private Menu menu;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
@@ -102,12 +88,5 @@ public class Restauration implements Serializable {
     public void setVols(Set<Vol> vols) {
         this.vols = vols;
     }
-    // public Menu getMenu() {
-    // return this.menu;
-    // }
-
-    // public void setMenu(Menu menu) {
-    // this.menu = menu;
-    // }
 
 }

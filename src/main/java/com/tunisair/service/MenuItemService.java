@@ -32,14 +32,9 @@ public class MenuItemService {
     }
 
     public MenuItem createMenuItem(MenuItem menuItem) {
-        //return menuItemRepository.save(menuItem);
-        System.out.println(menuItem);
-        System.out.println(menuItem.getMenu());
         MenuId menuId = menuItem.getMenu().getId();
-        System.out.println(menuId);
         Menu menu = menuRepository.findById(menuId).orElse(null);
     if (menu == null) {
-        System.out.println("!!!!!! Error: Menu with ID " + menuId + " does not exist.");
         return null;
     }
     menuItem.setMenu(menu);
@@ -50,7 +45,6 @@ public class MenuItemService {
     public MenuItem updateMenuItem(Long id, MenuItem menuItem) throws NotFoundException {
         MenuItem existingMenuItem = getMenuItem(id);
 
-        // Update attributes of existingMenuItem with the new values from menuItem
         existingMenuItem.setName(menuItem.getName());
         existingMenuItem.setMenu(menuItem.getMenu());
 

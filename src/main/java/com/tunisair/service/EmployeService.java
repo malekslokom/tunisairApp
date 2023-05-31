@@ -32,7 +32,6 @@ public class EmployeService {
         Employe existingEmploye = employeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employe not found with id: " + id));
 
-        // Update attributes of existingEmploye with the new values from employe
         existingEmploye.setNom(employe.getNom());
         existingEmploye.setPrenom(employe.getPrenom());
         existingEmploye.setDateNaissance(employe.getDateNaissance());

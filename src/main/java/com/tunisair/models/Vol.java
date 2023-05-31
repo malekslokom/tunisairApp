@@ -6,9 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "vol", uniqueConstraints = { @UniqueConstraint(columnNames = "numeroVol") })
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -129,14 +126,6 @@ public class Vol implements Serializable {
     public void setEquipage(Equipage equipage) {
         this.equipage = equipage;
     }
-
-    // public Set<Aeroport> getAeroports() {
-    //     return this.aeroports;
-    // }
-
-    // public void setAeroports(Set<Aeroport> aeroports) {
-    //     this.aeroports = aeroports;
-    // }
 
     public Set<Restauration> getRestaurations() {
         return this.restaurations;

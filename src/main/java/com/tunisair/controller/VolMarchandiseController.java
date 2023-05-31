@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,24 +25,28 @@ public class VolMarchandiseController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('SUPERADMIN') or hasRole('ADMIN')")
     public ResponseEntity<VolMarchandise> getVolMarchandiseById(@PathVariable Long id) throws NotFoundException {
         VolMarchandise volMarchandise = volMarchandiseService.getVolMarchandiseById(id);
         return ResponseEntity.ok(volMarchandise);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('SUPERADMIN') or hasRole('ADMIN')")
     public ResponseEntity<List<VolMarchandise>> getAllVolMarchandises() {
         List<VolMarchandise> volMarchandises = volMarchandiseService.getAllVolMarchandises();
         return ResponseEntity.ok(volMarchandises);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPERADMIN') or hasRole('ADMIN')")
     public ResponseEntity<VolMarchandise> createVolMarchandise(@RequestBody VolMarchandise volMarchandise) {
         VolMarchandise createdVolMarchandise = volMarchandiseService.createVolMarchandise(volMarchandise);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVolMarchandise);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPERADMIN') or hasRole('ADMIN')")
     public ResponseEntity<VolMarchandise> updateVolMarchandise(
             @PathVariable Long id,
             @RequestBody VolMarchandise volMarchandise
@@ -51,6 +56,7 @@ public class VolMarchandiseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPERADMIN') or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteVolMarchandise(@PathVariable Long id) throws NotFoundException {
         volMarchandiseService.deleteVolMarchandise(id);
         return ResponseEntity.noContent().build();

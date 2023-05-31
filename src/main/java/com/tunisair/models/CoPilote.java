@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CoPilote extends Employe implements Serializable {
@@ -14,8 +13,6 @@ public class CoPilote extends Employe implements Serializable {
     private String numeroLicence;
     
     @OneToOne
-    //@JsonIgnore
-    //@JoinColumn(name = "equipage_Id")
     private Equipage equipage;
 
     public int getNbHeuresVol() {

@@ -31,8 +31,6 @@ public class StaffService {
 
     public Staff updateStaff(Long id, Staff staff) throws NotFoundException {
         Staff existingStaff = getStaff(id);
-
-        // Update attributes of existingStaff with the new values from staff
         existingStaff.setRole(staff.getRole());
         existingStaff.setExperience(staff.getExperience());
         existingStaff.setEquipage(staff.getEquipage());

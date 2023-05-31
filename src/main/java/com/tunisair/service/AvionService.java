@@ -31,7 +31,6 @@ public class AvionService {
         Avion existingAvion = avionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Avion not found with id: " + id));
 
-        // Update attributes of existingAvion with the new values from avion
         existingAvion.setNomAvion(avion.getNomAvion());
         existingAvion.setModele(avion.getModele());
         existingAvion.setType(avion.getType());

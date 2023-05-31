@@ -31,7 +31,6 @@ public class AeroportService {
         Aeroport existingAeroport = aeroportRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Aeroport not found with id: " + id));
 
-        // Update attributes of existingAeroport with the new values from aeroport
         existingAeroport.setNom(aeroport.getNom());
         existingAeroport.setVille(aeroport.getVille());
 

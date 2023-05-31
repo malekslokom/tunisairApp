@@ -39,13 +39,6 @@ public class Equipage{
         this.idEquipage = idEquipage;
     }
 
-    // public List<Pilote> getPilotes() {
-    //     return this.pilotes;
-    // }
-
-    // public void setPilotes(List<Pilote> pilotes) {
-    //     this.pilotes = pilotes;
-    // }
     public Pilote getPilote() {
         return this.pilote;
     }

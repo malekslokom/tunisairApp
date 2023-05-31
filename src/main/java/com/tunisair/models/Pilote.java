@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -16,8 +15,6 @@ public class Pilote extends Employe implements Serializable{
     private String numeroLicence;
     
     @OneToOne
-    //@JsonIgnore
-    //@JoinColumn(name = "equipage_Id")
     private Equipage equipage;
 
     public int getNbHeuresVol() {

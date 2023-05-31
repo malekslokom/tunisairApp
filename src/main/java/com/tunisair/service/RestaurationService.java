@@ -32,7 +32,6 @@ public class RestaurationService {
     public Restauration updateRestauration(Long id, Restauration restauration) throws NotFoundException {
         Restauration existingRestauration = getRestauration(id);
 
-        // Update attributes of existingRestauration with the new values from restauration
         existingRestauration.setNom(restauration.getNom());
         existingRestauration.setEmail(restauration.getEmail());
         existingRestauration.setTelephone(restauration.getTelephone());

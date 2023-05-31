@@ -31,7 +31,6 @@ public class PiloteService {
     public Pilote updatePilote(Long id, Pilote pilote) throws NotFoundException {
         Pilote existingPilote = getPilote(id);
 
-        // Update attributes of existingPilote with the new values from pilote
         existingPilote.setNbHeuresVol(pilote.getNbHeuresVol());
         existingPilote.setNumeroLicence(pilote.getNumeroLicence());
         existingPilote.setEquipage(pilote.getEquipage());

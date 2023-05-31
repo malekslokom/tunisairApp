@@ -2,7 +2,6 @@ package com.tunisair.service;
 
 import com.tunisair.models.CoPilote;
 import com.tunisair.repositories.CoPiloteRepository;
-import com.tunisair.repositories.CoPiloteRepository;
 import javassist.NotFoundException;
 
 import java.util.List;
@@ -32,7 +31,6 @@ public class CoPiloteService {
     public CoPilote updateCoPilote(Long id, CoPilote coPilote) throws NotFoundException {
         CoPilote existingCoPilote = getCoPilote(id);
 
-        // Update attributes of existingPilote with the new values from pilote
         existingCoPilote.setNbHeuresVol(coPilote.getNbHeuresVol());
         existingCoPilote.setNumeroLicence(coPilote.getNumeroLicence());
         existingCoPilote.setEquipage(coPilote.getEquipage());

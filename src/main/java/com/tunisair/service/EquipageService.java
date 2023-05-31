@@ -32,7 +32,6 @@ public class EquipageService {
         Equipage existingEquipage = equipageRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Equipage not found with id: " + id));
 
-        // Update attributes of existingEquipage with the new values from equipage
         existingEquipage.setPilote(equipage.getPilote());
         existingEquipage.setCoPilote(equipage.getCoPilote());
         existingEquipage.setStaffs(equipage.getStaffs());
