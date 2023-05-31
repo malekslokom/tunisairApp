@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/volvoyageurs")
+@RequestMapping("/api/volvoyageurs")
 public class VolVoyageurController {
 
     private final VolVoyageurService volVoyageurService;
@@ -26,42 +26,30 @@ public class VolVoyageurController {
     @GetMapping
     public ResponseEntity<List<VolVoyageur>> getAllVolVoyageurs() {
         List<VolVoyageur> volVoyageurs = volVoyageurService.getAllVolVoyageurs();
-        return new ResponseEntity<>(volVoyageurs, HttpStatus.OK);
+        return ResponseEntity.ok(volVoyageurs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VolVoyageur> getVolVoyageurById(@PathVariable Long id) {
+    public ResponseEntity<VolVoyageur> getVolVoyageurById(@PathVariable Long id) throws NotFoundException {
         VolVoyageur volVoyageur = volVoyageurService.getVolVoyageurById(id);
-        if (volVoyageur != null) {
-            return new ResponseEntity<>(volVoyageur, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(volVoyageur);
     }
 
     @PostMapping
     public ResponseEntity<VolVoyageur> createVolVoyageur(@RequestBody VolVoyageur volVoyageur) {
         VolVoyageur createdVolVoyageur = volVoyageurService.createVolVoyageur(volVoyageur);
-        return new ResponseEntity<>(createdVolVoyageur, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdVolVoyageur);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VolVoyageur> updateVolVoyageur(@PathVariable Long id, @RequestBody VolVoyageur volVoyageur) {
+    public ResponseEntity<VolVoyageur> updateVolVoyageur(@PathVariable Long id, @RequestBody VolVoyageur volVoyageur) throws NotFoundException {
         VolVoyageur updatedVolVoyageur = volVoyageurService.updateVolVoyageur(id, volVoyageur);
-        if (updatedVolVoyageur != null) {
-            return new ResponseEntity<>(updatedVolVoyageur, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(updatedVolVoyageur);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVolVoyageur(@PathVariable Long id) throws NotFoundException {
-        boolean deleted = volVoyageurService.deleteVolVoyageur(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        volVoyageurService.deleteVolVoyageur(id);
+        return ResponseEntity.noContent().build();
     }
 }

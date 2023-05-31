@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/volMarchandise")
+@RequestMapping("/api/volMarchandises")
 public class VolMarchandiseController {
 
     private final VolMarchandiseService volMarchandiseService;
@@ -24,7 +24,7 @@ public class VolMarchandiseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VolMarchandise> getVolMarchandiseById(@PathVariable Long id) {
+    public ResponseEntity<VolMarchandise> getVolMarchandiseById(@PathVariable Long id) throws NotFoundException {
         VolMarchandise volMarchandise = volMarchandiseService.getVolMarchandiseById(id);
         return ResponseEntity.ok(volMarchandise);
     }
