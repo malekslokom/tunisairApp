@@ -5,11 +5,9 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Pilote extends Employe implements Serializable{
+public class CoPilote extends Employe implements Serializable {
 
     private int nbHeuresVol;
     

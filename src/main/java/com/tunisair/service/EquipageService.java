@@ -33,7 +33,8 @@ public class EquipageService {
                 .orElseThrow(() -> new NotFoundException("Equipage not found with id: " + id));
 
         // Update attributes of existingEquipage with the new values from equipage
-        existingEquipage.setPilotes(equipage.getPilotes());
+        existingEquipage.setPilote(equipage.getPilote());
+        existingEquipage.setCoPilote(equipage.getCoPilote());
         existingEquipage.setStaffs(equipage.getStaffs());
         existingEquipage.setVols(equipage.getVols());
 

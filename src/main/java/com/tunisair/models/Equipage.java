@@ -15,8 +15,13 @@ public class Equipage{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEquipage;
     
-    @OneToMany(mappedBy = "equipage")
-    private List<Pilote> pilotes;
+    @OneToOne
+    @JoinColumn(name = "pilote_id")
+    private Pilote pilote;
+
+    @OneToOne
+    @JoinColumn(name = "copilote_id")
+    private CoPilote coPilote;
     
     @OneToMany(mappedBy = "equipage")
     private List<Staff> staffs;
@@ -34,12 +39,27 @@ public class Equipage{
         this.idEquipage = idEquipage;
     }
 
-    public List<Pilote> getPilotes() {
-        return this.pilotes;
+    // public List<Pilote> getPilotes() {
+    //     return this.pilotes;
+    // }
+
+    // public void setPilotes(List<Pilote> pilotes) {
+    //     this.pilotes = pilotes;
+    // }
+    public Pilote getPilote() {
+        return this.pilote;
     }
 
-    public void setPilotes(List<Pilote> pilotes) {
-        this.pilotes = pilotes;
+    public void setPilote(Pilote pilote) {
+        this.pilote = pilote;
+    }
+
+    public CoPilote getCoPilote() {
+        return this.coPilote;
+    }
+
+    public void setCoPilote(CoPilote coPilote) {
+        this.coPilote = coPilote;
     }
 
     public List<Staff> getStaffs() {
