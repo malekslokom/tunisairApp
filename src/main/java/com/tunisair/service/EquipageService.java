@@ -3,6 +3,9 @@ package com.tunisair.service;
 import com.tunisair.models.Equipage;
 import com.tunisair.repositories.EquipageRepository;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +16,9 @@ public class EquipageService {
     public EquipageService(EquipageRepository equipageRepository) {
         this.equipageRepository = equipageRepository;
     }
-
+    public List<Equipage> getAllEquipages() {
+        return equipageRepository.findAll();
+    }
     public Equipage getEquipageById(Long id) throws NotFoundException {
         return equipageRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Equipage not found with id: " + id));

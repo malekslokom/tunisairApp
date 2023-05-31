@@ -2,6 +2,8 @@ package com.tunisair.models;
 import java.util.*;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "equipage", uniqueConstraints = { 
     @UniqueConstraint(columnNames = "idEquipage")
@@ -20,6 +22,7 @@ public class Equipage{
     private List<Staff> staffs;
     
     @OneToMany(mappedBy = "equipage")
+    @JsonIgnore
     private List<Vol> vols;
     
 

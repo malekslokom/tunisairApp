@@ -1,5 +1,7 @@
 package com.tunisair.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,11 @@ public class AvionController {
     public AvionController(AvionService avionService) {
         this.avionService = avionService;
     }
-
+    @GetMapping
+    public ResponseEntity<List<Avion>> getAllAvions() {
+        List<Avion> avions = avionService.getAllAvions();
+        return ResponseEntity.ok(avions);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Avion> getAvionById(@PathVariable("id") Long id) throws NotFoundException {
         Avion avion = avionService.getAvionById(id);

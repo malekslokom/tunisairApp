@@ -2,6 +2,8 @@ package com.tunisair.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pilote extends Employe {
 
@@ -10,6 +12,8 @@ public class Pilote extends Employe {
     private String numeroLicence;
     
     @ManyToOne
+    //@JsonIgnore
+    @JoinColumn(name = "equipage_Id")
     private Equipage equipage;
 
     public int getNbHeuresVol() {

@@ -3,6 +3,9 @@ package com.tunisair.service;
 import com.tunisair.models.Employe;
 import com.tunisair.repositories.EmployeRepository;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +16,9 @@ public class EmployeService {
     public EmployeService(EmployeRepository employeRepository) {
         this.employeRepository = employeRepository;
     }
-
+    public List<Employe> getAllEmployes() {
+        return employeRepository.findAll();
+    }
     public Employe getEmployeById(Long id) throws NotFoundException {
         return employeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employe not found with id: " + id));

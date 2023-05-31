@@ -1,5 +1,7 @@
 package com.tunisair.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.tunisair.repositories.*;
 import javassist.NotFoundException;
@@ -13,7 +15,9 @@ public class AvionService {
     public AvionService(AvionRepository avionRepository) {
         this.avionRepository = avionRepository;
     }
-
+    public List<Avion> getAllAvions() {
+        return avionRepository.findAll();
+    }
     public Avion getAvionById(Long id) throws NotFoundException {
         return avionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Avion not found with id: " + id));

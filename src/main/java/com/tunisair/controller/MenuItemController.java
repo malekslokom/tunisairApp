@@ -3,6 +3,9 @@ package com.tunisair.controller;
 import com.tunisair.models.MenuItem;
 import com.tunisair.service.MenuItemService;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,11 @@ public class MenuItemController {
     public MenuItemController(MenuItemService menuItemService) {
         this.menuItemService = menuItemService;
     }
-
+    @GetMapping
+    public ResponseEntity<List<MenuItem>> getAllMenuItems() {
+        List<MenuItem> menuItems = menuItemService.getAllMenuItems();
+        return ResponseEntity.ok(menuItems);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<MenuItem> getMenuItem(@PathVariable("id") Long id) throws NotFoundException {
         MenuItem menuItem = menuItemService.getMenuItem(id);

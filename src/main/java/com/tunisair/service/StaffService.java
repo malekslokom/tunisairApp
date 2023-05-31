@@ -3,6 +3,9 @@ package com.tunisair.service;
 import com.tunisair.models.Staff;
 import com.tunisair.repositories.StaffRepository;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +15,9 @@ public class StaffService {
 
     public StaffService(StaffRepository staffRepository) {
         this.staffRepository = staffRepository;
+    }
+    public List<Staff> getAllStaff() {
+        return staffRepository.findAll();
     }
 
     public Staff getStaff(Long id) throws NotFoundException {

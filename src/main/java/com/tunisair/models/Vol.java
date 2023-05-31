@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "vol", uniqueConstraints = { @UniqueConstraint(columnNames = "numeroVol") })
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -21,40 +24,37 @@ public class Vol implements Serializable {
     private String etat;
 
     @ManyToOne
+   // @JsonIgnore
+    @JoinColumn(name = "aeroport_depart_id_aeroport")
     private Aeroport aeroportDepart;
 
     @ManyToOne
+   // @JsonIgnore
+    @JoinColumn(name = "aeroport_destination_id_aeroport")
     private Aeroport aeroportDestination;
 
     @ManyToOne
+    //@JsonIgnore
+    @JoinColumn(name = "avion_id_avion")
     private Avion avion;
 
     @ManyToOne
+    //@JsonIgnore
+    @JoinColumn(name = "equipage_id_equipage")
     private Equipage equipage;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Escale", joinColumns = @JoinColumn(name = "numerovol"), inverseJoinColumns = @JoinColumn(name = "idAeroport"))
-    private Set<Aeroport> aeroports = new HashSet<>();
-    
-    @OneToMany(mappedBy = "vol")
-    private Set<Escale> escales = new HashSet<>();
 
-    public void addEscale(Escale escale) {
-        escales.add(escale);
-        escale.setVol(this);
-    }
-
-    public void removeEscale(Escale escale) {
-        escales.remove(escale);
-        escale.setVol(null);
-    }
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+      })
     @JoinTable(
         name = "Menu",
         joinColumns = @JoinColumn(name = "numeroVol"),
         inverseJoinColumns = @JoinColumn(name = "idRestauration")
     )
+   //@JsonIgnoreProperties("vols")
     private Set<Restauration> restaurations = new HashSet<>();
 
 
@@ -130,13 +130,13 @@ public class Vol implements Serializable {
         this.equipage = equipage;
     }
 
-    public Set<Aeroport> getAeroports() {
-        return this.aeroports;
-    }
+    // public Set<Aeroport> getAeroports() {
+    //     return this.aeroports;
+    // }
 
-    public void setAeroports(Set<Aeroport> aeroports) {
-        this.aeroports = aeroports;
-    }
+    // public void setAeroports(Set<Aeroport> aeroports) {
+    //     this.aeroports = aeroports;
+    // }
 
     public Set<Restauration> getRestaurations() {
         return this.restaurations;
@@ -145,4 +145,7 @@ public class Vol implements Serializable {
     public void setRestaurations(Set<Restauration> restaurations) {
         this.restaurations = restaurations;
     }
+
+   
+    
 }

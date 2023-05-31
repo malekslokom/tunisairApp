@@ -11,6 +11,7 @@ public class Staff extends Employe {
     private int experience;
     
     @ManyToOne
+    @JoinColumn(name = "equipage_Id")
     private Equipage equipage;
 
     public String getRole() {

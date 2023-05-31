@@ -3,6 +3,9 @@ package com.tunisair.service;
 import com.tunisair.models.Restauration;
 import com.tunisair.repositories.RestaurationRepository;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 
@@ -14,7 +17,9 @@ public class RestaurationService {
     public RestaurationService(RestaurationRepository restaurationRepository) {
         this.restaurationRepository = restaurationRepository;
     }
-
+    public List<Restauration> getAllRestaurations() {
+        return restaurationRepository.findAll();
+    }
     public Restauration getRestauration(Long id) throws NotFoundException {
         return restaurationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restauration not found with id: " + id));

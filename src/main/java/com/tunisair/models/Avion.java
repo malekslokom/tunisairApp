@@ -1,6 +1,12 @@
 package com.tunisair.models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -8,7 +14,7 @@ import java.util.List;
     @UniqueConstraint(columnNames = "idAvion")
    
 })
-public class Avion{
+public class Avion implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +26,7 @@ public class Avion{
     private String etat;
     
     @OneToMany(mappedBy = "avion")
+    @JsonIgnore
     private List<Vol> vols;
     
     public Long getIdAvion() {

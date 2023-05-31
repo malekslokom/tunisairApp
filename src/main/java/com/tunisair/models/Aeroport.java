@@ -21,21 +21,6 @@ public class Aeroport {
     @OneToMany(mappedBy = "aeroportDestination")
     private List<Vol> volsDestination;
 
-    @ManyToMany(mappedBy = "aeroports")
-    private Set<Vol> vols = new HashSet<>();
-
-    @OneToMany(mappedBy = "aeroport")
-    private Set<Escale> escales = new HashSet<>();
-
-    public void addEscale(Escale escale) {
-        escales.add(escale);
-        escale.setAeroport(this);
-    }
-
-    public void removeEscale(Escale escale) {
-        escales.remove(escale);
-        escale.setAeroport(null);
-    }
 
     public Long getIdAeroport() {
         return this.idAeroport;

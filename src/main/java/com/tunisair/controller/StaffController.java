@@ -3,6 +3,9 @@ package com.tunisair.controller;
 import com.tunisair.models.Staff;
 import com.tunisair.service.StaffService;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,12 @@ public class StaffController {
     public StaffController(StaffService staffService) {
         this.staffService = staffService;
     }
+    @GetMapping
+    public ResponseEntity<List<Staff>> getAllStaff() {
+        List<Staff> staff = staffService.getAllStaff();
+        return ResponseEntity.ok(staff);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Staff> getStaff(@PathVariable("id") Long id) throws NotFoundException {

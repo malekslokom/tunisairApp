@@ -44,7 +44,7 @@ public class VolVoyageurService {
             existingVolVoyageur.setAeroportDestination(updatedVolVoyageur.getAeroportDestination());
             existingVolVoyageur.setAvion(updatedVolVoyageur.getAvion());
             existingVolVoyageur.setEquipage(updatedVolVoyageur.getEquipage());
-            existingVolVoyageur.setAeroports(updatedVolVoyageur.getAeroports());
+            // existingVolVoyageur.setAeroports(updatedVolVoyageur.getAeroports());
             existingVolVoyageur.setRestaurations(updatedVolVoyageur.getRestaurations());
     
             // Update the fields specific to VolVoyageur

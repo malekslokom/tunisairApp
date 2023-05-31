@@ -1,5 +1,7 @@
 package com.tunisair.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.tunisair.models.*;
 import com.tunisair.repositories.*;
@@ -13,7 +15,9 @@ public class AeroportService {
     public AeroportService(AeroportRepository aeroportRepository) {
         this.aeroportRepository = aeroportRepository;
     }
-
+    public List<Aeroport> getAllAeroports() {
+        return aeroportRepository.findAll();
+    }
     public Aeroport getAeroportById(Long id) throws NotFoundException {
         return aeroportRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Aeroport not found with id: " + id));

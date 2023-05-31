@@ -1,5 +1,7 @@
 package com.tunisair.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,6 +30,11 @@ public class AeroportController {
         this.aeroportService = aeroportService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Aeroport>> getAllAeroports() {
+        List<Aeroport> aeroports = aeroportService.getAllAeroports();
+        return ResponseEntity.ok(aeroports);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Aeroport> getAeroportById(@PathVariable("id") Long id) throws NotFoundException {
         Aeroport aeroport = aeroportService.getAeroportById(id);

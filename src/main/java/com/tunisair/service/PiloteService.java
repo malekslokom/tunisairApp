@@ -3,6 +3,9 @@ package com.tunisair.service;
 import com.tunisair.models.Pilote;
 import com.tunisair.repositories.PiloteRepository;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +16,9 @@ public class PiloteService {
     public PiloteService(PiloteRepository piloteRepository) {
         this.piloteRepository = piloteRepository;
     }
-
+    public List<Pilote> getAllPilotes() {
+        return piloteRepository.findAll();
+    }
     public Pilote getPilote(Long id) throws NotFoundException {
         return piloteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pilote not found with id: " + id));

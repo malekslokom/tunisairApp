@@ -3,6 +3,9 @@ package com.tunisair.controller;
 import com.tunisair.models.Equipage;
 import com.tunisair.service.EquipageService;
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,11 @@ public class EquipageController {
     public EquipageController(EquipageService equipageService) {
         this.equipageService = equipageService;
     }
-
+    @GetMapping
+    public ResponseEntity<List<Equipage>> getAllEquipages() {
+        List<Equipage> equipages = equipageService.getAllEquipages();
+        return ResponseEntity.ok(equipages);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Equipage> getEquipageById(@PathVariable("id") Long id) throws NotFoundException {
         Equipage equipage = equipageService.getEquipageById(id);
