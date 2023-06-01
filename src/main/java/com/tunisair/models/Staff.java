@@ -1,16 +1,21 @@
 package com.tunisair.models;
+import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Staff")
-public class Staff extends Employe {
+public class Staff extends Employe implements Serializable{
 
 
     private String role;
     
     private int experience;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)   
+     @JsonIgnore
     @JoinColumn(name = "equipage_Id")
     private Equipage equipage;
 

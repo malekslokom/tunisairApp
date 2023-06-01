@@ -119,7 +119,6 @@ public class VolMarchandiseService {
         existingVolMarchandise.setAeroportDestination(volMarchandise.getAeroportDestination());
         existingVolMarchandise.setAvion(volMarchandise.getAvion());
         existingVolMarchandise.setEquipage(volMarchandise.getEquipage());
-        existingVolMarchandise.setRestaurations(volMarchandise.getRestaurations());
         existingVolMarchandise.setPoids(volMarchandise.getPoids());
         existingVolMarchandise.setTypeMarchandise(volMarchandise.getTypeMarchandise());
 

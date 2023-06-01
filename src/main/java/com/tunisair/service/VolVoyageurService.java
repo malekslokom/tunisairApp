@@ -84,7 +84,6 @@ public class VolVoyageurService {
         VolVoyageur existingVolVoyageur = volVoyageurRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("VolVoyageur not found with id: " + id));
 
-        existingVolVoyageur.setNumeroVol(volVoyageur.getNumeroVol());
         existingVolVoyageur.setDateDepart(volVoyageur.getDateDepart());
         existingVolVoyageur.setDateArrivee(volVoyageur.getDateArrivee());
         existingVolVoyageur.setRetard(volVoyageur.getRetard());
@@ -92,7 +91,6 @@ public class VolVoyageurService {
         existingVolVoyageur.setAeroportDepart(volVoyageur.getAeroportDepart());
         existingVolVoyageur.setAeroportDestination(volVoyageur.getAeroportDestination());
         existingVolVoyageur.setEquipage(volVoyageur.getEquipage());
-        existingVolVoyageur.setRestaurations(volVoyageur.getRestaurations());
 
         return volVoyageurRepository.save(existingVolVoyageur);
     }

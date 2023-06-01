@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pilote extends Employe implements Serializable{
 
     private int nbHeuresVol;
@@ -15,6 +16,7 @@ public class Pilote extends Employe implements Serializable{
     private String numeroLicence;
     
     @OneToOne
+    @JsonIgnore
     private Equipage equipage;
 
     public int getNbHeuresVol() {

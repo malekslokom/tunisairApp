@@ -1,15 +1,18 @@
 package com.tunisair.models;
+import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "equipage", uniqueConstraints = { 
     @UniqueConstraint(columnNames = "idEquipage")
    
 })
-public class Equipage{
+
+public class Equipage implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,9 @@ public class Equipage{
     @JoinColumn(name = "copilote_id")
     private CoPilote coPilote;
     
-    @OneToMany(mappedBy = "equipage")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "equipage")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
     private List<Staff> staffs;
     
     @OneToMany(mappedBy = "equipage")
@@ -61,6 +66,7 @@ public class Equipage{
 
     public void setStaffs(List<Staff> staffs) {
         this.staffs = staffs;
+     
     }
 
     public List<Vol> getVols() {
@@ -70,5 +76,8 @@ public class Equipage{
     public void setVols(List<Vol> vols) {
         this.vols = vols;
     }
-
+    public Equipage() {
+        this.staffs = new ArrayList<>();
+    }
+    
 }
