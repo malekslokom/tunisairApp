@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/employes")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class EmployeController {
 
     private final EmployeService employeService;

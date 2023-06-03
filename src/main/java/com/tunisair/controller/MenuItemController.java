@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/menu-items")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class MenuItemController {
 
     private final MenuItemService menuItemService;

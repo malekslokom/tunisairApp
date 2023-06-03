@@ -13,6 +13,7 @@ import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/api/avions")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AvionController {
 
     private final AvionService avionService;

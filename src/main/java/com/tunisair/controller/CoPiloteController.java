@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/copilotes")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CoPiloteController {
 
     private final CoPiloteService coPiloteService;
